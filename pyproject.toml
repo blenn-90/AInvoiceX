@@ -1,0 +1,29 @@
+[project]
+name = "ainvocex"
+version = "0.1.0"
+description = "a system that compares a series of text documents, emails and messages to digital invoices using AI. It helps companies to check correspondence between what is invoiced and what the customer's requests."
+authors = [
+    {name = "Alessandro Di Stefano"}
+]
+readme = "README.md"
+requires-python = "=3.11.8, <4.0"
+dependencies = [
+    "streamlit (>=1.43.2,<2.0.0)",
+    "dotenv (>=0.9.9,<0.10.0)",
+    "langchain-openai (>=0.3.8,<0.4.0)",
+    "python-dotenv (>=1.0.1,<2.0.0)",
+    "langchain (>=0.3.20,<0.4.0)",
+    "chromadb (>=0.6.3,<0.7.0)",
+    "langchain-chroma (>=0.2.2,<0.3.0)",
+    "pypdf (>=5.4.0,<6.0.0)",
+    "langchain-community (>=0.3.19,<0.4.0)",
+    "langchain-ollama (>=0.2.3,<0.3.0)",
+    "google-auth (>=2.38.0,<3.0.0)",
+    "google-api-python-client (>=2.165.0,<3.0.0)",
+    "google-auth-oauthlib (>=1.2.1,<2.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
