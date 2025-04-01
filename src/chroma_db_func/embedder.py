@@ -1,9 +1,6 @@
-import streamlit as st
-import os
-from uuid import uuid4
 from pathlib import Path
-import datetime
 
+import os
 
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import TextLoader, PyPDFLoader
@@ -13,29 +10,17 @@ from langchain_openai import OpenAIEmbeddings
 import chromadb
 chromadb.api.client.SharedSystemClient.clear_system_cache()
 
+import datetime
+from datetime import datetime
+
+month = datetime.now().month
+year = datetime.now().year
+current_folder_path = str(month) + "_" + str(year)
 
 #Define the directory containing the text files and the persistent directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
-db_dir = os.path.join(current_dir, "..", "data")
-persistent_directory = os.path.join(db_dir, "db", "chroma_db_with_metadata")
-
-st.title("📝 Add documents to the memory!")
-
-uploaded_files = st.file_uploader(
-    "Choose a file", accept_multiple_files=True
-)
-
-if len(uploaded_files) == 0:
-    st.error("No file were uploaded")
-
-uploaded_files_name_list = []
-for i in range(len(uploaded_files)):
-    bytes_data = uploaded_files[i].read()  # read the content of the file in binary
-    
-    with open(os.path.join(db_dir, uploaded_files[i].name), "wb") as f:
-        f.write(bytes_data)  # write this content elsewhere
-
-        uploaded_files_name_list.append(uploaded_files[i].name)
+db_dir = os.path.join(current_dir, "..", "..", "data", current_folder_path)
+persistent_directory = os.path.join(db_dir, "chroma_db")
 
 # create to handle different types of documents
 def load_document(file_path):
@@ -75,7 +60,7 @@ def chroma_db_func(uploaded_files):
             print(f"Found file : {book_file}")
             # Add metadata to each document indicating its source
 
-            doc.metadata = {"source": book_file, "type": Path(file_path).suffix.lower(), "date": datetime.datetime.now().strftime("%Y/%m/%d") }
+            doc.metadata = {"source": book_file, "type": Path(file_path).suffix.lower(), "date": datetime.now().strftime("%Y/%m/%d") }
             documents.append(doc)
 
     # Split the documents into chunks
@@ -109,7 +94,3 @@ def chroma_db_func(uploaded_files):
         db.add_documents(docs)
         print("\n--- Finished adding the documents to the vector store ---")
         return
-            
-chroma_db_func(uploaded_files_name_list)
-
-
