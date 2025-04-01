@@ -16,11 +16,13 @@ from datetime import datetime
 month = datetime.now().month
 year = datetime.now().year
 current_folder_path = str(month) + "_" + str(year)
+current_folder_path_v1 = datetime.now().strftime('%m_%Y')
+
 
 #Define the directory containing the text files and the persistent directory
 current_dir = os.path.dirname(os.path.abspath(__file__))
-db_dir = os.path.join(current_dir, "..", "..", "data", current_folder_path)
-persistent_directory = os.path.join(db_dir, "chroma_db")
+db_dir_v1 = os.path.join(current_dir, "..", "..","..","data", current_folder_path_v1)
+persistent_directory = os.path.join(db_dir_v1, "chroma_db")
 
 # create to handle different types of documents
 def load_document(file_path):
@@ -36,10 +38,11 @@ def load_document(file_path):
 # create or add documents to chroma_db
 def chroma_db_func(uploaded_files):
     # Ensure the books directory exists
-    if not os.path.exists(db_dir):
+    if not os.path.exists(db_dir_v1):
         raise FileNotFoundError(
-            f"The directory {db_dir} does not exist. Please check the path."
+            f"The directory {db_dir_v1} does not exist. Please check the path."
         )
+    print("embed data in path "+db_dir_v1 )
 
     # Display information about the split documents
     print("\n--- Document Information ---")
@@ -53,7 +56,7 @@ def chroma_db_func(uploaded_files):
     # Read the text content from each file and store it with metadata
     documents = []
     for book_file in uploaded_files:
-        file_path = os.path.join(db_dir, book_file)
+        file_path = os.path.join(db_dir_v1, book_file)
         docs = load_document(file_path).load()
 
         for doc in docs:

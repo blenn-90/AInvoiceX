@@ -5,4 +5,5 @@ documents = st.Page("2_documents.py", title="Documents", icon=":material/descrip
 
 pg = st.navigation([dashboard, documents])
 st.set_page_config(page_title="Data manager", page_icon=":material/edit:")
+st.title("AInvoiceX")
 pg.run()

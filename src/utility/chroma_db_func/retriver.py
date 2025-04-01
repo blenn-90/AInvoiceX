@@ -16,7 +16,7 @@ load_dotenv()
 def retrive_data_from_selected_timeframe(selected_timeframe):
     print("retrive data from path "+selected_timeframe )
     current_dir = os.path.dirname(os.path.abspath(__file__))
-    persistent_directory = os.path.join(current_dir, "..", "..","data", selected_timeframe, "chroma_db")
+    persistent_directory = os.path.join(current_dir, "..", "..", "..","data", selected_timeframe, "chroma_db")
     
 
     # Define the embedding model
