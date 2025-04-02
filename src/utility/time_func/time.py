@@ -1,15 +1,15 @@
 import datetime
 from datetime import datetime
 
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 from utility import constant
 
-# Path to the external folder
-external_path = os.path.abspath("..")  # Adjust the path accordingly
-sys.path.append(external_path)
+def string_date_to_folder_path(text):
+    textual = datetime.strptime(text, constant.month_year_textual_pattern)
+    folder = textual.strftime(constant.month_year_folder_pattern)
+    return folder
 
-def get_current_date_folder_path():
-    current_folder_path = datetime.now().strftime(constant.month_year_folder_pattern)
-    return current_folder_path
+def folder_path_to_string_date(text):
+    folder = datetime.strptime(text, constant.month_year_folder_pattern)
+    textual = folder.strftime(constant.month_year_textual_pattern)
+    return textual
+

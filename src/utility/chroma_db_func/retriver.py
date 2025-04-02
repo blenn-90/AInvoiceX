@@ -4,21 +4,21 @@ from dotenv import load_dotenv
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_chroma import Chroma
-from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain_ollama import OllamaLLM
+
+import utility.logger as logger
 
 # Load environment variables from .env
 load_dotenv()
 
 # Define the persistent directory
 def retrive_data_from_selected_timeframe(selected_timeframe):
-    print("retrive data from path "+selected_timeframe )
+    logger.log_info("generating llm answer")
+    
     current_dir = os.path.dirname(os.path.abspath(__file__))
     persistent_directory = os.path.join(current_dir, "..", "..", "..","data", selected_timeframe, "chroma_db")
     
-
     # Define the embedding model
     embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
 

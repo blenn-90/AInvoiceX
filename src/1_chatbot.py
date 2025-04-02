@@ -1,57 +1,46 @@
 import streamlit as st
 import os
+
 import utility.chroma_db_func.retriver as retriver  
-import datetime
-from datetime import datetime
+import utility.path_func.path as path_func
 import utility.time_func.time as time_func
  
-current_folder_path_v1 = time_func.get_current_date_folder_path()
+import utility.logger as logger
 
-#Define the directory containing the text files and the persistent directory
-current_dir = os.path.dirname(os.path.abspath(__file__))
-db_dir = os.path.join(current_dir, "..", "data")
-get_month_db_dir = os.path.join(db_dir, current_folder_path_v1)
-os.makedirs(get_month_db_dir, exist_ok=True)
+logger.log_info("--- CHATBOT PAGE")
 
-def list_subdirs(directory):
-    subdir_data = []
-    # Get all subdirectories (only first-level)
-    subdirs = [os.path.join(directory, d) for d in os.listdir(directory) if os.path.isdir(os.path.join(directory, d))]
-    for subdir in subdirs:
-        # Convert it to a datetime object
-        month_year = datetime.strptime(os.path.basename(subdir), '%m_%Y')
+#Define the directory containing the monthly data files
+data_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
+current_month_folder_path = os.path.join(data_directory, path_func.get_current_month_folder_path())
 
-        # Convert it to a textual month and year format
-        textual_month_year = month_year.strftime('%B %Y')
-        subdir_data.append(textual_month_year)
+#Create the directory containing the monthly data files if it doesnt exist
+os.makedirs(current_month_folder_path, exist_ok=True)
 
-    return subdir_data
-
-
+#Defining Streamlit objects
+#Sidebar
 with st.sidebar:
-    add_radio = st.radio(
+    radio_monthly = st.radio(
         "Time frame over which data is analyzed",
-        list_subdirs(db_dir)
+        path_func.list_subdirs(data_directory)
     )
 
-st.title("💬 Chatbot")
-st.caption("An assistant chatbot")
+#Page Title and ChatBot
+st.caption("💬 An assistant chatbot")
+
+#Session values
 if "chat_history" not in st.session_state:
     st.session_state["chat_history"] = [{"role": "assistant", "content": "How can I help you?"}]
-
 for msg in st.session_state.chat_history:
     st.chat_message(msg["role"]).write(msg["content"])
 
+#User excute a query to the chatbot
 if prompt := st.chat_input():
-
     st.session_state.chat_history.append({"role": "user", "content": prompt})
     st.chat_message("user").write(prompt)
-    # Convert it to a datetime object
-    month_year = datetime.strptime(add_radio,'%B %Y')
-    textual_month_year = month_year.strftime('%m_%Y')
-    rag_chain = retriver.retrive_data_from_selected_timeframe(textual_month_year)
+
+    #invoke llm chain
+    rag_chain = retriver.retrive_data_from_selected_timeframe(time_func.string_date_to_folder_path(radio_monthly))
     result = rag_chain.invoke({"input": prompt, "chat_history": st.session_state.chat_history})
-    # response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
     msg = result['answer']
     st.session_state.chat_history.append({"role": "assistant", "content": msg})
     st.chat_message("assistant").write(msg)
