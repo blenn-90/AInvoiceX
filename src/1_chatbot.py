@@ -4,12 +4,10 @@ import os
 import utility.chroma_db_func.retriver as retriver  
 import utility.path_func.path as path_func
 import utility.time_func.time as time_func
- 
 import utility.logger as logger
 
 logger.log_info("--- CHATBOT PAGE")
 
-#Define the directory containing the monthly data files
 data_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
 current_month_folder_path = os.path.join(data_directory, path_func.get_current_month_folder_path())
 

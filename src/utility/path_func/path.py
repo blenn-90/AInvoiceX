@@ -8,7 +8,6 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
-
 # Path to the external folder
 external_path = os.path.abspath("..")  # Adjust the path accordingly
 sys.path.append(external_path)
