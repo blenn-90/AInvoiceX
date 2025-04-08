@@ -1,3 +1,5 @@
 .env
 data/*
 *.json
+src/.streamlit/*
+data.db

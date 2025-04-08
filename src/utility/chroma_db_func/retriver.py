@@ -6,25 +6,12 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain.tools.gmail import GmailSearch
+
 
 import utility.logger as logger
 
 # Load environment variables from .env
 load_dotenv()
-
-def get_email():
-
-    # 🔹 Create an instance of GmailBaseSearch
-    gmail_search = GmailSearch()
-    query = "richiesta impianto"
-    emails = gmail_search.run(query)
-    print(type(emails))
-
-    # 🔹 Print the retrieved emails
-    print(emails)
-
-get_email()
 
 # Define the persistent directory
 def retrive_data_from_selected_timeframe(selected_timeframe):
@@ -42,7 +29,6 @@ def retrive_data_from_selected_timeframe(selected_timeframe):
     # Create a retriever for querying the vector store
     # `search_type` specifies the type of search (e.g., similarity)
     # `search_kwargs` contains additional arguments for the search (e.g., number of results to return)
-
     retriever = db.as_retriever(
         search_type="similarity",
         search_kwargs={"k": 3},

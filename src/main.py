@@ -8,7 +8,8 @@ logger.log_info("loading navigation bar")
 #defining nagivation bar pages
 dashboard = st.Page("1_chatbot.py", title="Dashboard", icon=":material/dashboard:", default=True)
 documents = st.Page("2_documents.py", title="Documents", icon=":material/description:")
-pg = st.navigation([dashboard, documents])
+emails = st.Page("3_emails.py", title="Emails", icon=":material/email:")
+pg = st.navigation([dashboard, documents, emails])
 
 #defining basic streamlit page config
 logger.log_info("loading streamlit config")
