@@ -31,7 +31,7 @@ def retrive_data_from_selected_timeframe(selected_timeframe):
     # `search_kwargs` contains additional arguments for the search (e.g., number of results to return)
     retriever = db.as_retriever(
         search_type="similarity",
-        search_kwargs={"k": 3},
+        search_kwargs={"k": 10},
         #filter={"type": "pdf", "date": {"$gte": one_month_ago.strftime("%Y-%m-%d")}}
     )
 

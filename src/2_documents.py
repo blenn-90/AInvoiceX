@@ -13,11 +13,11 @@ current_month_folder_path = os.path.join(data_directory, path_func.get_current_m
 
 #Defining Streamlit objects
 #Page Caption and ChatBot
-st.caption("📝 Add documents to the memory!")
+st.caption("📝 Aggiungi un documento nel sistema!")
 
 #Upload input
 uploaded_files = st.file_uploader(
-    "Choose a file", accept_multiple_files=True
+    "Scegli un file", accept_multiple_files=True
 )
 
 uploaded_files_name_list = []
@@ -32,7 +32,7 @@ for i in range(len(uploaded_files)):
 chroma_db_func(uploaded_files_name_list)
 
 #Uploaded file in the system
-st.title("Uploaded files")
+st.title("Documenti caricati nel sistema")
 #list of all the files grouped by month
 if os.path.exists(data_directory):
     subdir_dfs = path_func.list_files_in_subdirs(data_directory)
@@ -42,6 +42,6 @@ if os.path.exists(data_directory):
             st.subheader(f"{time_func.folder_path_to_string_date(subdir)}") 
             st.dataframe(df)  
     else:
-        st.warning("No files found")
+        st.warning("Nessun documento trovato")
 else:
     st.error(f"Directory '{data_directory}' not found!")

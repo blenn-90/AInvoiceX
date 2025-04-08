@@ -18,16 +18,16 @@ os.makedirs(current_month_folder_path, exist_ok=True)
 #Sidebar
 with st.sidebar:
     radio_monthly = st.radio(
-        "Time frame over which data is analyzed",
+        "Scegli il mese da analizzare",
         path_func.list_subdirs(data_directory)
     )
 
 #Page Title and ChatBot
-st.caption("💬 An assistant chatbot")
+st.caption("💬 Assistente chatbot")
 
 #Session values
 if "chat_history" not in st.session_state:
-    st.session_state["chat_history"] = [{"role": "assistant", "content": "How can I help you?"}]
+    st.session_state["chat_history"] = [{"role": "assistant", "content": "Ciao, come posso aiutarti?"}]
 for msg in st.session_state.chat_history:
     st.chat_message(msg["role"]).write(msg["content"])
 

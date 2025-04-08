@@ -33,21 +33,21 @@ cursor.execute("""
 conn.commit()
 
 # Show data
-st.subheader("Clients")
+st.subheader("Clienti")
 query = "SELECT * FROM clients"
 df = pd.read_sql(query, conn)
 if not df.empty:
     st.dataframe(df) 
 else:
-    st.info("No Clients found!")
+    st.info("Nessun cliente trovato!")
 
-@st.dialog("Add Client")
+@st.dialog("Aggingi")
 def add():
     with st.form("add_client_form"):
-        name = st.text_input("Name")
+        name = st.text_input("Nome")
         email = st.text_input("Email")
 
-        submit_add_button = st.form_submit_button("Confirm")
+        submit_add_button = st.form_submit_button("Conferma")
 
         if submit_add_button and name:
             cursor.execute("INSERT INTO clients (name, email) VALUES (?, ?)", (name, email))
@@ -57,19 +57,19 @@ def add():
 
             st.rerun()
 
-@st.dialog("Delete Client")
+@st.dialog("Elimina")
 def delete():
     with st.form("delete_client_form"):
-        delete_id = st.number_input("Enter Client ID to Delete", min_value=1, step=1)
-        submit_delete_button = st.form_submit_button("Confirm")
+        delete_id = st.number_input("Inserisci l'id del cliente che vuoi cancellare", min_value=1, step=1)
+        submit_delete_button = st.form_submit_button("Conferma")
         
         if submit_delete_button and delete_id:
             cursor.execute("DELETE FROM clients WHERE id=?", (delete_id,))
             conn.commit()
             st.rerun()
 
-if st.button("Add Client", key= 1, icon="➕"):
+if st.button("Aggiungi", key= 1, icon="➕"):
     add()
     
-if st.button("Delete Client", key= 2, icon="➖"):
+if st.button("Elimina", key= 2, icon="➖"):
     delete()

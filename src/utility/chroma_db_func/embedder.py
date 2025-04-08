@@ -66,7 +66,7 @@ def emails_to_vector(client, address):
     documents = []
     for email in emails:
         doc = Document(
-            page_content= client + ' ' + email['from'] + ' ' +email['body'],   # Il testo che sarà embeddato
+            page_content= 'EMAIL DEL CLIENTE: ' + client + ', comunicata dall indirizzo di posta: ' + email['from'] + ' contente il seguente contenuto: ' +email['body'],   # Il testo che sarà embeddato
             metadata={"source": email['from'], "type": 'email', "id": email['id']}  # Metadati opzionali
         )
         documents.append(doc)
