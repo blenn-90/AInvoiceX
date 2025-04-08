@@ -60,13 +60,13 @@ def documents_to_vector(documents):
         return
     
 # 🔹 Create an instance of GmailBaseSearch
-def get_emails_by_address(address):
+def emails_to_vector(client, address):
     gmail_search = GmailSearch()
     emails = gmail_search.run("from:"+address)
     documents = []
     for email in emails:
         doc = Document(
-            page_content=email['body'],   # Il testo che sarà embeddato
+            page_content= client + ' ' + email['from'] + ' ' +email['body'],   # Il testo che sarà embeddato
             metadata={"source": email['from'], "type": 'email', "id": email['id']}  # Metadati opzionali
         )
         documents.append(doc)
@@ -100,5 +100,5 @@ def chroma_db_func(uploaded_files):
             # Add metadata to each document indicating its source
             doc.metadata = {"source": book_file, "type": Path(file_path).suffix.lower(), "id": book_file}
             documents.append(doc)
-
+    
     documents_to_vector(documents)

@@ -2,7 +2,7 @@ import streamlit as st
 import os
 
 import utility.path_func.path as path_func
-from utility.chroma_db_func.embedder import get_emails_by_address
+from utility.chroma_db_func.embedder import emails_to_vector
 import utility.logger as logger
 import pandas as pd
 import sqlite3
@@ -53,7 +53,7 @@ def add():
             cursor.execute("INSERT INTO clients (name, email) VALUES (?, ?)", (name, email))
             conn.commit()
 
-            get_emails_by_address(email)
+            emails_to_vector(name, email)
 
             st.rerun()
 
